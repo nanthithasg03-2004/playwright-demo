@@ -1,0 +1,45 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: fixturePIM.spec.ts >> Add employee - 1
+- Location: tests\fixturePIM.spec.ts:16:5
+
+# Error details
+
+```
+Error: locator.fill: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('input[name="username"]')
+
+```
+
+# Test source
+
+```ts
+  1  | import { Page, expect } from '@playwright/test';
+  2  | import { OrangeHRM_LoginLocators } from '../locators/OrangeHRM_LoginLocators';
+  3  | 
+  4  | export class OrangeHRMLoginPage {
+  5  |     constructor(private page: Page) { }
+  6  | 
+  7  |     async login(username: string, password: string) {
+  8  | 
+  9  |         await this.page.goto('https://opensource-demo.orangehrmlive.com/');
+  10 | 
+> 11 |         await this.page.locator(OrangeHRM_LoginLocators.usernameTextbox).fill(username);
+     |                                                                          ^ Error: locator.fill: Target page, context or browser has been closed
+  12 |         await this.page.locator(OrangeHRM_LoginLocators.passwordTextbox).fill(password);
+  13 |         await this.page.locator(OrangeHRM_LoginLocators.loginButton).click();
+  14 |     }
+  15 | 
+  16 |     async verifyErrorMessage() {
+  17 |         await expect(this.page.locator(OrangeHRM_LoginLocators.errorMessage)).toHaveText('Invalid credentials123 ');
+  18 |     }
+  19 | }
+  20 | 
+```

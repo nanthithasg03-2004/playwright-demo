@@ -1,0 +1,26 @@
+ENV = "qa"
+ENVIRONMENT DATA = {
+  dev: {
+    users: { admin: [Object], user1: [Object] },
+    employee: { firstName: 'John', lastName: 'Doe' }
+  },
+  qa: {
+    users: { admin: [Object], user1: [Object] },
+    employee: { firstName: 'QA_John', lastName: 'QA_Doe' }
+  },
+  stage: {
+    users: { admin: [Object], user1: [Object] },
+    employee: { firstName: 'Stage_John', lastName: 'Stage_Doe' }
+  },
+  prod: {
+    users: { admin: [Object], user1: [Object] },
+    employee: { firstName: 'Prod_John', lastName: 'Prod_Doe' }
+  }
+}
+DATA = {
+  users: {
+    admin: { username: 'Admin', password: 'admin123' },
+    user1: { username: 'qa_user1', password: 'qa456' }
+  },
+  employee: { firstName: 'QA_John', lastName: 'QA_Doe' }
+}
