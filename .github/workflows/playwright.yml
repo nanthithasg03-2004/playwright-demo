@@ -34,7 +34,6 @@ on:
         required: true
         default: "2"
 
-
 permissions:
   contents: read
   pages: write
@@ -47,17 +46,21 @@ jobs:
     environment:
       name: github-pages
 
-    steps: 
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ inputs.version }}
 
       - name: Install Dependencies
         run: npm install
+
+      # ✅ FIX ADDED HERE (IMPORTANT)
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: Run Playwright Tests
         run: npx playwright test yaml-demo.spec.ts
@@ -69,13 +72,11 @@ jobs:
       - name: Generate Allure Report
         run: npx allure generate allure-results --clean -o allure-report
 
-      
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-report
 
- 
   deploy-report:
     needs: run-tests
     runs-on: windows-latest
