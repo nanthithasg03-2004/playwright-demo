@@ -1,0 +1,11 @@
+employee1:
+  firstName: John
+  lastName: David
+
+employee2:
+  firstName: Ravi
+  lastName: Kumar
+
+employee3:
+  firstName: Priya
+  lastName: Sharma

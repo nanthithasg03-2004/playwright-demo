@@ -1,27 +1,85 @@
-name: Playwright Tests
+name: Playwright Execution Pipeline
+
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Select Environment"
+        required: true
+        default: "qa"
+        type: choice
+        options:
+          - dev
+          - qa
+          - stage
+          - prod
+
+      browser:
+        description: "Select Browser"
+        required: true
+        default: "chromium"
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+
+      version:
+        description: "Node Version"
+        required: true
+        default: "18"
+
+      threads:
+        description: "Parallel Workers"
+        required: true
+        default: "2"
+
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
+  run-tests:
+    runs-on: windows-latest
+
+    environment:
+      name: github-pages
+
+    steps: 
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.version }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Playwright Tests
+        run: npx playwright test
+        env:
+          ENV: ${{ inputs.env }}
+          BROWSER: ${{ inputs.browser }}
+          THREADS: ${{ inputs.threads }}
+
+      - name: Generate Allure Report
+        run: npx allure generate allure-results --clean -o allure-report
+
+      
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+ 
+  deploy-report:
+    needs: run-tests
+    runs-on: windows-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

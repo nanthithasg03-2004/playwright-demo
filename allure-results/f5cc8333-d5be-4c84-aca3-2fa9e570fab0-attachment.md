@@ -1,0 +1,68 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: fixturePIM.spec.ts >> Add employee - 3
+- Location: tests\fixturePIM.spec.ts:38:5
+
+# Error details
+
+```
+TypeError: Cannot read properties of undefined (reading 'firstName')
+```
+
+# Test source
+
+```ts
+  1  | import { test } from '../fixtures/baseFixture';
+  2  | 
+  3  | test.beforeEach(async ({ pageManager, envData }) => {
+  4  | 
+  5  |     const admin = envData.get("adminUser");
+  6  | 
+  7  |     await pageManager.loginPage.login(
+  8  |         admin.username,
+  9  |         admin.password
+  10 |     );
+  11 | 
+  12 |     await pageManager.dashboardPage.verifyDashboard();
+  13 | });
+  14 | 
+  15 | 
+  16 | test('Add employee - 1', async ({ pageManager, envData }) => {
+  17 | 
+  18 |     const employee = envData.get("employee1");
+  19 | 
+  20 |     await pageManager.pimPage.addEmployee(
+  21 |         employee.firstName,
+  22 |         employee.lastName
+  23 |     );
+  24 | });
+  25 | 
+  26 | 
+  27 | test('Add employee - 2', async ({ pageManager, envData }) => {
+  28 | 
+  29 |     const employee = envData.get("employee2");
+  30 | 
+  31 |     await pageManager.pimPage.addEmployee(
+  32 |         employee.firstName,
+  33 |         employee.lastName
+  34 |     );
+  35 | });
+  36 | 
+  37 | 
+  38 | test('Add employee - 3', async ({ pageManager, envData }) => {
+  39 | 
+  40 |     const employee = envData.get("employee3");
+  41 | 
+  42 |     await pageManager.pimPage.addEmployee(
+> 43 |         employee.firstName,
+     |                  ^ TypeError: Cannot read properties of undefined (reading 'firstName')
+  44 |         employee.lastName
+  45 |     );
+  46 | });
+```
