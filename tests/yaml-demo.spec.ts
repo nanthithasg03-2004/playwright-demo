@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 
 // 1. Tell the computer where the YAML file is
-const yamlPath = path.resolve(__dirname, '../testdata/data.yaml');
+const yamlPath = path.resolve(__dirname, '../testdata/data.yml');
 
 // 2. Read the YAML file as plain text
 const rawText = fs.readFileSync(yamlPath, 'utf8');
