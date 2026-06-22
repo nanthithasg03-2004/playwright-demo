@@ -1,8 +1,12 @@
 console.log("YAML Reader Started");
-import fs from 'fs';
-import yaml from 'yaml';
 
-const file = fs.readFileSync('./testdata/data.yaml', 'utf8');
+const fs = require('fs');
+const yaml = require('yaml');
+const path = require('path');
+
+const filePath = path.resolve(__dirname, '../testdata/data.yml');
+
+const file = fs.readFileSync(filePath, 'utf8');
 
 const data = yaml.parse(file);
 
