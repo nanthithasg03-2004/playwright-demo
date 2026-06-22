@@ -2,23 +2,19 @@ import { defineConfig, devices } from '@playwright/test';
 import { config } from './config/config';
 
 console.log("ENV VALUE =", process.env.ENV);
-console.log("BROWSER VALUE =", process.env.BROWSER);
-console.log("THREADS VALUE =", process.env.THREADS);
 
 const env = process.env.ENV || 'qa';
-const browser = process.env.BROWSER || 'chromium';
-const threads = process.env.THREADS ? parseInt(process.env.THREADS) : 2;
 
 export default defineConfig({
   testDir: './tests',
 
-  fullyParallel: true,
+  fullyParallel: false,
 
   forbidOnly: !!process.env.CI,
 
   retries: process.env.CI ? 2 : 0,
 
-  workers: threads,
+  workers: 1,
 
   timeout: 30 * 1000,
 
@@ -33,11 +29,11 @@ export default defineConfig({
   ],
 
   use: {
-    headless: true,
+    headless: false,
 
     viewport: { width: 1280, height: 720 },
 
-    baseURL: config[env as keyof typeof config]?.baseURL,
+    baseURL: config?.[env as keyof typeof config]?.baseURL,
 
     screenshot: 'only-on-failure',
 
@@ -49,7 +45,7 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     launchOptions: {
-      slowMo: 0
+      slowMo: 200
     },
 
     actionTimeout: 10000,
@@ -57,19 +53,9 @@ export default defineConfig({
   },
 
   projects: [
-    browser === 'chromium'
-      ? {
-        name: 'chromium',
-        use: { ...devices['Desktop Chrome'] }
-      }
-      : browser === 'firefox'
-        ? {
-          name: 'firefox',
-          use: { ...devices['Desktop Firefox'] }
-        }
-        : {
-          name: 'webkit',
-          use: { ...devices['Desktop Safari'] }
-        }
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] }
+    }
   ]
 });
