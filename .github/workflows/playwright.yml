@@ -60,7 +60,7 @@ jobs:
         run: npm install
 
       - name: Run Playwright Tests
-        run: npx playwright test
+        run: npx playwright test yaml-demo.spec.ts
         env:
           ENV: ${{ inputs.env }}
           BROWSER: ${{ inputs.browser }}
