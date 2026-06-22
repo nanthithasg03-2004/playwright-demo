@@ -27,7 +27,7 @@ on:
       version:
         description: "Node Version"
         required: true
-        default: "18"
+        default: "20"
 
       threads:
         description: "Parallel Workers"
@@ -54,7 +54,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ inputs.version }}
+          node-version: 20
 
       - name: Install Dependencies
         run: npm install

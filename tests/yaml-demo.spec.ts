@@ -4,18 +4,24 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 
 // 1. Tell the computer where the YAML file is
-const yamlPath = path.resolve(__dirname, '../testdata/searchData.yaml');
+const yamlPath = path.resolve(__dirname, '../testdata/data.yaml');
 
 // 2. Read the YAML file as plain text
 const rawText = fs.readFileSync(yamlPath, 'utf8');
 
 // 3. Convert the YAML text into a JavaScript list that our code can understand
-const testCases = yaml.load(rawText) as any[];
+const testCasesObj = yaml.load(rawText) as any;
+
+const testCases = Object.keys(testCasesObj).map(key => ({
+  testId: key,
+  query: testCasesObj[key].firstName + ' ' + testCasesObj[key].lastName,
+  expected: testCasesObj[key].firstName
+}));
 
 // 4. For every item in our list, run a test!
 for (const item of testCases) {
   test(`Running ${item.testId} - Search for ${item.query}`, async ({ page }) => {
-    
+
     // Go to Google
     await page.goto('https://www.google.com');
 
