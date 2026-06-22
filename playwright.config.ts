@@ -1,8 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import { config } from './config/config';
 
-console.log("ENV VALUE =", process.env.ENV);
-
 const env = process.env.ENV || 'qa';
 
 export default defineConfig({
@@ -29,11 +27,11 @@ export default defineConfig({
   ],
 
   use: {
-    headless: false,
+    headless: true,
 
     viewport: { width: 1280, height: 720 },
 
-    baseURL: config?.[env as keyof typeof config]?.baseURL,
+    baseURL: config?.[env as keyof typeof config]?.baseURL || '',
 
     screenshot: 'only-on-failure',
 
@@ -45,7 +43,7 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     launchOptions: {
-      slowMo: 200
+      slowMo: 0
     },
 
     actionTimeout: 10000,

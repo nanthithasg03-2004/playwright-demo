@@ -4,24 +4,12 @@ import { negativeData } from '../testdata/negativeLoginData';
 
 test('NegativeLogin', async ({ page }) => {
     const neglogin = new OrangeHRMLoginPage(page);
-    // await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-    // await neglogin.login(negativeData.username, negativeData.password);
-    // await neglogin.verifyErrorMessage();
-
 
     await page.goto('https://opensource-demo.orangehrmlive.com/');
 
-    await page.waitForLoadState('networkidle');
+    // ❌ removed networkidle (causes CI flakiness)
 
     await neglogin.login(negativeData.username, negativeData.password);
 
     await neglogin.verifyErrorMessage();
-
-
-
 });
-
-
-
-
-
