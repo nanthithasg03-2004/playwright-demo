@@ -70,7 +70,7 @@ jobs:
           THREADS: ${{ inputs.threads }}
 
       - name: Generate Allure Report
-        run: npx allure generate allure-results --clean -o allure-report
+        run: npx allure generate allure-results -o allure-report
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
