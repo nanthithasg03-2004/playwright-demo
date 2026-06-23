@@ -3,6 +3,6 @@ test-results/
 playwright-report/
 allure-results/
 allure-report/
-*.map
+
 *.js
-*.d.ts
+*.map
