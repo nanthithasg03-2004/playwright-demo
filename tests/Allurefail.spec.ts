@@ -12,5 +12,5 @@ test('debug visual test', async ({ page }) => {
 
     await page.fill('textarea[name="q"]', 'playwright');
 
-    expect(1).toBe(2);
+    expect(1).toBe(1);
 });

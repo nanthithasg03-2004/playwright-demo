@@ -14,6 +14,6 @@ export class OrangeHRMLoginPage {
     }
 
     async verifyErrorMessage() {
-        await expect(this.page.locator(OrangeHRM_LoginLocators.errorMessage)).toHaveText('Invalid credentials123 ');
+        await expect(this.page.locator(OrangeHRM_LoginLocators.errorMessage)).toHaveText('Invalid credentials');
     }
 }
