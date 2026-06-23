@@ -5,21 +5,24 @@ import { loginData } from '../testdata/loginData';
 import { pimData } from '../testdata/pimData';
 
 test('PIM Page', async ({ page }) => {
+
     const loginpage = new OrangeHRMLoginPage(page);
-    const PIMpage = new PIMPage(page);
+    const pimpage = new PIMPage(page);
 
     await page.goto('https://opensource-demo.orangehrmlive.com/');
 
+    // Login
     await loginpage.login(loginData.username, loginData.password);
 
-    // FIX 1: wait for dashboard
-    await page.waitForURL('**/dashboard/index');
+    await page.waitForURL('**/dashboard/**');
+    await page.waitForLoadState('networkidle');
 
-    // FIX 2: go to PIM explicitly (safer)
-    await page.locator('a[href*="pim"]').click();
+    // Navigate to PIM ONCE
+    await page.getByRole('link', { name: 'PIM' }).click();
 
-    // FIX 3: ensure PIM page is loaded
     await expect(page).toHaveURL(/pim/);
+    await page.waitForLoadState('networkidle');
 
-    await PIMpage.addEmployee(pimData.firstName, pimData.lastName);
+    // Add employee
+    await pimpage.addEmployee(pimData.firstName, pimData.lastName);
 });
