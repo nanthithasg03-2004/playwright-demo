@@ -58,7 +58,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # ✅ FIX ADDED HERE (IMPORTANT)
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
@@ -83,4 +82,10 @@ jobs:
 
     steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Print Allure Report URL
+        run: |
+          echo "## Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "https://nanthithasg03-2004.github.io/playwright-demo/" >> $GITHUB_STEP_SUMMARY
